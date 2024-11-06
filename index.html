@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+  <title>Signin Page</title>
+  <style>
+    body {
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzditsMp61V3SZE4Hy0ImTAYaGUxIuye7Gtw&s');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <center>
+    <h1><img src="logo.png" id="logo">Signin</h1>
+    <form id="signinForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" placeholder="Username" required><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <a href="signup.html">Don't have an account? Signup</a><br>
+      <!-- Removed onclick attribute from the button -->
+      <button class="button" type="submit">Signin</button>
+    </form>
+  </center>
+  <script>
+    document.getElementById('signinForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/signin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Signin successful, show alert and redirect to home.html
+          alert('Signin successful! user ID: ' + result._id);
+          window.location.href = 'home.html';
+        } else {
+          // Signin failed, show alert only
+          alert('Signin failed!');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while signing in.');
+      }
+    });
+  </script>
+</body>
+</html>
