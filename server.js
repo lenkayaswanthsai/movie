@@ -9,7 +9,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-mongoose.connect(`mongodb://${server}/${db}`)
+mongoose.connect(`mongodb://localhost:27017/movie`)
     .then(() => {
         console.log("Database connection is successful");
     })
